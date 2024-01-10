@@ -25,7 +25,9 @@ from torch.utils.tensorboard import SummaryWriter  # Import SummaryWriter
 def log_tensorboard(writer, logs, step):
     for k, v in logs.items():
         if isinstance(v, dict):
-            log_tensorboard(writer, v, step)
+            # modify all the keys with the header of k
+            modified_dict = {f'{k}/{key}'  : value for key, value in v.items()}
+            log_tensorboard(writer, modified_dict, step)
         else:
             writer.add_scalar(k, v, step)
 
